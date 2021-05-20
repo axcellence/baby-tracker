@@ -6,9 +6,9 @@ const notion = new Client({
 });
 
 export default async (req, res) => {
-  const databaseId = process.env.NOTION_DB_ID;
+  const databaseId = process.env.NOTION_DB_SLEEP_ID;
 
-  const { quantity } = req.query;
+  const { sleep } = req.query;
 
   const response = await notion.pages.create({
     parent: {
@@ -19,13 +19,15 @@ export default async (req, res) => {
         title: [
           {
             text: {
-              content: "Nappy used",
+              content: `Ezekiel is ${Number(sleep) ? "Asleep" : "Awake"}`,
             },
           },
         ],
       },
-      Amount: {
-        number: Number(quantity),
+      State: {
+        select: {
+          name: `${Number(sleep) ? "Asleep" : "Awake"}`,
+        },
       },
       Date: {
         date: {
