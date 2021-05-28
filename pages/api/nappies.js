@@ -1,3 +1,4 @@
+const moment = require("moment-timezone");
 const { Client } = require("@notionhq/client");
 
 // Initializing a client
@@ -9,6 +10,8 @@ export default async (req, res) => {
   const databaseId = process.env.NOTION_DB_ID;
 
   const { quantity } = req.query;
+
+  const currentTime = moment().tz("Europe/London").format();
 
   const response = await notion.pages.create({
     parent: {
@@ -29,7 +32,7 @@ export default async (req, res) => {
       },
       Date: {
         date: {
-          start: new Date().toISOString(),
+          start: currentTime,
         },
       },
     },
