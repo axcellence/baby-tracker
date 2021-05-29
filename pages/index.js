@@ -4,12 +4,15 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const usedNappy = async (amount) => {
+  const usedNappy = async (amount, type) => {
     const quantity = amount || -1;
+
+    console.log(type);
 
     await fetch(
       `/api/nappies?${new URLSearchParams({
         quantity,
+        type,
       })}`,
       {
         method: "POST",
@@ -36,6 +39,14 @@ export default function Home() {
         }}
       >
         Nappy used
+      </button>
+
+      <button
+        onClick={() => {
+          usedNappy(-1, "poopy");
+        }}
+      >
+        Nappy mixed
       </button>
 
       <button

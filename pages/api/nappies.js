@@ -9,7 +9,9 @@ const notion = new Client({
 export default async (req, res) => {
   const databaseId = process.env.NOTION_DB_ID;
 
-  const { quantity } = req.query;
+  const { quantity, type } = req.query;
+
+  console.log({ type });
 
   const currentTime = moment().tz("Europe/London").format();
 
@@ -33,6 +35,11 @@ export default async (req, res) => {
       Date: {
         date: {
           start: currentTime,
+        },
+      },
+      Type: {
+        select: {
+          name: type,
         },
       },
     },
