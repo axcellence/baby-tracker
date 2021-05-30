@@ -4,26 +4,12 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const usedNappy = async (amount, type) => {
-    const quantity = amount || -1;
-
-    console.log(type);
-
+  const feed = async (type, feed, amount = null) => {
     await fetch(
-      `/api/nappies?${new URLSearchParams({
-        quantity,
+      `/api/feeding?${new URLSearchParams({
         type,
-      })}`,
-      {
-        method: "POST",
-      }
-    );
-  };
-
-  const isAsleep = async (sleep) => {
-    await fetch(
-      `/api/sleep?${new URLSearchParams({
-        sleep,
+        feed,
+        amount,
       })}`,
       {
         method: "POST",
@@ -35,34 +21,33 @@ export default function Home() {
     <main>
       <button
         onClick={() => {
-          usedNappy();
+          feed("right boob", 1);
         }}
       >
-        Nappy used
+        R
       </button>
 
       <button
         onClick={() => {
-          usedNappy(-1, "poopy");
+          feed("left boob", 1);
         }}
       >
-        Nappy mixed
+        L
       </button>
 
       <button
         onClick={() => {
-          isAsleep(1);
+          feed("bottle", 1);
         }}
       >
-        Is Asleep
+        Bottle
       </button>
-
       <button
         onClick={() => {
-          isAsleep(0);
+          feed("stop", 0, 120);
         }}
       >
-        Is Awake
+        Stop feed
       </button>
     </main>
   );
