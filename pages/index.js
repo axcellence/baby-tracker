@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const feed = async (type, feed, amount = null) => {
+  const feed = async (type, feed, amount = 0) => {
     await fetch(
       `/api/feeding?${new URLSearchParams({
         type,
@@ -44,7 +44,7 @@ export default function Home() {
       </button>
       <button
         onClick={() => {
-          feed("stop", 0, 120);
+          feed("stop", 0);
         }}
       >
         Stop feed

@@ -90,7 +90,7 @@ export default async (req, res) => {
                 },
               },
               Amount: {
-                number: Number(amount) ? Number(amount) : "",
+                number: Number(amount) ? Number(amount) : 0,
               },
               Active: {
                 checkbox: false,
