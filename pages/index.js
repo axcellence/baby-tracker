@@ -19,6 +19,13 @@ const Home = () => {
       >
         check last feed
       </button>
+      <button
+        onClick={() => {
+          check("sleep");
+        }}
+      >
+        check last sleep
+      </button>
     </main>
   );
 };

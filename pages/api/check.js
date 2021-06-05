@@ -28,6 +28,20 @@ export default async (req, res) => {
 
   let time;
 
+  const getLabel = (ended) => {
+    if (type === "feed" && ended) {
+      return "fed";
+    } else if (type === "sleep" && ended) {
+      return "slept";
+    } else if (type === "feed" && !ended) {
+      return "feeding";
+    } else if (type === "sleep" && !ended) {
+      return "sleeping";
+    } else {
+      return "";
+    }
+  };
+
   getPreviousEntryId()
     .then(async (id) => {
       const previous = await notion.pages.retrieve({
@@ -37,41 +51,14 @@ export default async (req, res) => {
     })
     .then(async (previous) => {
       let { date } = previous.properties.Date;
-      date = moment(date.end);
 
-      // time = date.from(currentTime);
+      const ended = date.end ? true : false;
+      date = ended ? moment(date.end) : moment(date.start);
 
-      res.status(200).json({ time: date.from(currentTime) });
+      const label = getLabel(ended);
+
+      res
+        .status(200)
+        .json({ label: `Ezekiel ${label}`, timeAgo: date.from(currentTime) });
     });
-  /*
-  const response = await notion.pages.create({
-    parent: {
-      database_id: databaseId,
-    },
-    properties: {
-      Name: {
-        title: [
-          {
-            text: {
-              content: "Nappy used",
-            },
-          },
-        ],
-      },
-      Amount: {
-        number: Number(quantity),
-      },
-      Date: {
-        date: {
-          start: currentTime,
-        },
-      },
-      Type: {
-        select: {
-          name: type,
-        },
-      },
-    },
-  });
-*/
 };
