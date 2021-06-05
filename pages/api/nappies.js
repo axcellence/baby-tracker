@@ -11,8 +11,6 @@ export default async (req, res) => {
 
   const { quantity, type } = req.query;
 
-  console.log({ type });
-
   const currentTime = moment().tz("Europe/London").format();
 
   const response = await notion.pages.create({
