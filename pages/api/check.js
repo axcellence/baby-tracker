@@ -32,11 +32,11 @@ export default async (req, res) => {
     if (type === "feed" && ended) {
       return "fed";
     } else if (type === "sleep" && ended) {
-      return "slept";
+      return "woke up";
     } else if (type === "feed" && !ended) {
-      return "feeding";
+      return "started feeding";
     } else if (type === "sleep" && !ended) {
-      return "sleeping";
+      return "started sleeping";
     } else {
       return "";
     }
