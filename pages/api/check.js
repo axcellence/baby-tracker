@@ -28,16 +28,24 @@ export default async (req, res) => {
 
   let time;
 
-  const getLabel = (ended) => {
-    if (type === "feed" && ended) {
-      return "fed";
-    } else if (type === "sleep" && ended) {
-      return "woke up";
-    } else if (type === "feed" && !ended) {
-      return "started feeding";
-    } else if (type === "sleep" && !ended) {
-      return "started sleeping";
-    } else {
+  const getLabel = (ended, state) => {
+    if (type === "feed") {
+      if (!ended) {
+        return "started feeding";
+      }
+      if (ended) {
+        return "fed";
+      }
+      return "";
+    }
+
+    if (type === "sleep") {
+      if (state === "Asleep" && !ended) {
+        return "started sleeping";
+      }
+      if (state === "Awake" && !ended) {
+        return "woke up";
+      }
       return "";
     }
   };
@@ -51,11 +59,12 @@ export default async (req, res) => {
     })
     .then(async (previous) => {
       let { date } = previous.properties.Date;
+      let state = previous.properties.State.select.name;
 
       const ended = date.end ? true : false;
       date = ended ? moment(date.end) : moment(date.start);
 
-      const label = getLabel(ended);
+      const label = getLabel(ended, state);
 
       res
         .status(200)
