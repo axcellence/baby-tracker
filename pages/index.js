@@ -1,59 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useSWR from "swr";
 const moment = require("moment-timezone");
-import styled from "styled-components";
+
+import Layout from "../components/Layout";
+import Box from "../components/Box";
 
 const server = `http://localhost:3000`;
 
 const currentTime = moment().tz("Europe/London").format();
 
-const Home = () => {
-  const [loading, setLoading] = useState(true);
+const Home = ({ data }) => {
+  console.log(data);
+  // const [loading, setLoading] = useState(true);
 
-  const fetcher = async (url) => {
-    const res = await fetch(url);
-    const data = res.json();
-    console.log(data);
-    setLoading(false);
-    return data;
-  };
-
-  const { data, error } = useSWR(`${server}/api/latest`, fetcher, {
-    refreshInterval: 120 * 1000,
-  });
-
-  const label = data.properties.Name.title[0].plain_text;
-  let { date } = data.properties.Date;
-  const ended = date.end ? true : false;
-  const time = ended ? moment(date.end) : moment(date.start);
-
-  const Box = styled.div`
-    text-align: center;
-    color: rgb(55, 65, 81);
-  `;
-
-  const Label = styled.div`
-    font-size: 2rem;
-    font-weight: 600;
-  `;
-
-  const Time = styled.time`
-    display: block;
-    margin-top: 0.5em;
-    font-size: 1.5rem;
-    opacity: 0.5;
-  `;
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     console.log("This will run after 1 second!");
+  //   }, 1000);
+  //   setLoading(false);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   return (
-    <main>
-      {!loading && data && (
-        <Box>
-          <Label>{label} </Label> <Time>{time.from(currentTime)}</Time>
-        </Box>
-      )}
-      {loading && <h1>Loading...</h1>}
-    </main>
+    <Layout>
+      <main>
+        <header className="border-b-2 border-gray-400 pb-4 mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-wider uppercase text-gray-700 text-center">
+            baby updates
+          </h1>
+        </header>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {data.map((item) => {
+            return <Box key={item.id} {...item} />;
+          })}
+        </div>
+
+        {/* {loading && <h1>Loading...</h1>} */}
+      </main>
+    </Layout>
   );
+};
+
+export const getStaticProps = async () => {
+  const res = await fetch(`${server}/api/latest`);
+  const data = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
 };
 
 export default Home;
