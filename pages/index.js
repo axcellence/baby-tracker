@@ -5,7 +5,10 @@ const moment = require("moment-timezone");
 import Layout from "../components/Layout";
 import Box from "../components/Box";
 
-const server = `http://localhost:3000`;
+const dev = process.env.NODE_ENV !== "production";
+const server = dev
+  ? "http://localhost:3000"
+  : "https://babytracking.netlify.app";
 
 const currentTime = moment().tz("Europe/London").format();
 
