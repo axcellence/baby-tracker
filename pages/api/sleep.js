@@ -60,14 +60,14 @@ export default async (req, res) => {
             title: [
               {
                 text: {
-                  content: `Ezekiel is ${Number(sleep) ? "Asleep" : "Awake"}`,
+                  content: `Ezekiel is ${Number(sleep) ? "asleep" : "awake"}`,
                 },
               },
             ],
           },
           State: {
             select: {
-              name: `${Number(sleep) ? "Asleep" : "Awake"}`,
+              name: `${Number(sleep) ? "asleep" : "awake"}`,
             },
           },
           Date: {

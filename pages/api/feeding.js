@@ -76,7 +76,7 @@ export default async (req, res) => {
                 title: [
                   {
                     text: {
-                      content: `Ezekiel has fed`,
+                      content: `Ezekiel fed`,
                     },
                   },
                 ],
