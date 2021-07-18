@@ -1,8 +1,21 @@
+import Head from "next/head";
+
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen grid place-items-center bg-gray-200 text-white">
-      {children}
-    </div>
+    <>
+      <Head>
+        <title>Baby updates</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <div className="min-h-screen grid place-items-center bg-red-50 text-white">
+        {children}
+      </div>
+    </>
   );
 };
 
