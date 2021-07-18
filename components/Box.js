@@ -30,10 +30,14 @@ const Box = (props) => {
   console.log(time.from(currentTime));
 
   return (
-    <div className="border-2 border-gray-600 rounded-lg py-4 px-6 text-gray-600 flex gap-4 text-lg font-semibold">
+    <div className=" bg-white shadow-lg rounded-lg p-6 flex flex-col gap-2 text-lg font-semibold">
       {emjoi && <div>{emjoi}</div>}
-      {name && <div>{name}</div>}
-      {time && <div>{time.from(currentTime)}</div>}
+      {name && (
+        <h3 className="mt-2 text-xl text-gray-600 font-semibold">{name}</h3>
+      )}
+      {time && (
+        <div className="text-lg text-gray-500">{time.from(currentTime)}</div>
+      )}
     </div>
   );
 };
