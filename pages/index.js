@@ -4,6 +4,7 @@ const moment = require("moment-timezone");
 
 import Layout from "../components/Layout";
 import Box from "../components/Box";
+import { feedDbId, sleepDbId, nappyDbId, getDatabase } from "../lib/notion";
 
 const dev = process.env.NODE_ENV !== "production";
 const server = dev
@@ -13,41 +14,30 @@ const server = dev
 const currentTime = moment().tz("Europe/London").format();
 
 const Home = ({ data }) => {
-  console.log(data);
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     console.log("This will run after 1 second!");
-  //   }, 1000);
-  //   setLoading(false);
-  //   return () => clearTimeout(timer);
-  // }, []);
-
   return (
     <Layout>
-      <main>
-        <header className="border-b-2 border-gray-400 pb-4 mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-wider uppercase text-gray-700 text-center">
+      <main className="my-8">
+        <h1 className="text-2xl md:text-4xl font-semibold tracking-wider uppercase text-gray-600 text-center mb-8">
+          <span className="inline-block border-b-2 border-gray-300 pb-4">
             baby updates
-          </h1>
-        </header>
+          </span>
+        </h1>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {data.map((item) => {
             return <Box key={item.id} {...item} />;
           })}
         </div>
-
-        {/* {loading && <h1>Loading...</h1>} */}
       </main>
     </Layout>
   );
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch(`${server}/api/latest`);
-  const data = await res.json();
+  const feed = await getDatabase(feedDbId);
+  const sleep = await getDatabase(sleepDbId);
+  const nappy = await getDatabase(nappyDbId);
+  const data = [feed, sleep, nappy];
 
   return {
     props: {
