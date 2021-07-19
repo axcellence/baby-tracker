@@ -4,23 +4,23 @@ const currentTime = moment().tz("Europe/London").format();
 
 const Box = (props) => {
   const { name, type, start_date, end_date, duration } = props;
-
+  const kind = type.toLowerCase();
   const emjoi =
-    type === "wet"
+    kind === "wet"
       ? "💧"
-      : type === "poopy"
+      : kind === "poopy"
       ? "💩"
-      : type === "mixed"
+      : kind === "mixed"
       ? "💩💧"
-      : type === "Asleep"
+      : kind === "asleep"
       ? "😴"
-      : type === "Awake"
+      : kind === "awake"
       ? "👶🏼"
-      : type === "left boob"
+      : kind === "left boob"
       ? "🤱🏻"
-      : type === "right boob"
+      : kind === "right boob"
       ? "🤱🏻"
-      : type === "bottle"
+      : kind === "bottle"
       ? "🍼"
       : false;
 
@@ -33,11 +33,11 @@ const Box = (props) => {
       {name && (
         <h3 className="mt-2 text-xl text-gray-600 font-semibold">{name}</h3>
       )}
-      {time && (
+      {time && kind !== ("asleep" || "awake") && (
         <div className="text-lg text-gray-500">{time.from(currentTime)}</div>
       )}
       {duration && (
-        <div className="text-sm text-gray-400">
+        <div className="mt-auto text-sm text-gray-400">
           <span className="mr-2">⏱</span> {duration}
         </div>
       )}
