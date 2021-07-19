@@ -7,7 +7,7 @@ const notion = new Client({
 });
 
 export default async (req, res) => {
-  const databaseId = process.env.NOTION_DB_ID;
+  const databaseId = process.env.NOTION_DB_NAPPY_ID;
 
   const { quantity, type } = req.query;
 
