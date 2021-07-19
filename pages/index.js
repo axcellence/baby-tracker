@@ -34,9 +34,18 @@ const Home = ({ data }) => {
 };
 
 export const getStaticProps = async () => {
-  const feed = await getDatabase(feedDbId);
-  const sleep = await getDatabase(sleepDbId);
-  const nappy = await getDatabase(nappyDbId);
+  const params = {
+    sorts: [
+      {
+        property: "Date",
+        direction: "descending",
+      },
+    ],
+    page_size: 1,
+  };
+  const feed = await getDatabase(feedDbId, params);
+  const sleep = await getDatabase(sleepDbId, params);
+  const nappy = await getDatabase(nappyDbId, params);
   const data = [feed, sleep, nappy];
 
   return {
