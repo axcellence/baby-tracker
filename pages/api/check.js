@@ -9,6 +9,7 @@ const notion = new Client({
 export default async (req, res) => {
   const feedId = process.env.NOTION_DB_FEED_ID;
   const sleepId = process.env.NOTION_DB_SLEEP_ID;
+  const medicineId = process.env.NOTION_DB_MEDICINE_ID;
 
   const { type } = req.query;
 
@@ -17,7 +18,13 @@ export default async (req, res) => {
   // Check type
 
   const databaseId =
-    type === "feed" ? feedId : type === "sleep" ? sleepId : false;
+    type === "feed"
+      ? feedId
+      : type === "sleep"
+      ? sleepId
+      : type === "medicine"
+      ? medicineId
+      : false;
 
   let getPreviousEntryId = async () => {
     const db = await notion.databases.query({
@@ -28,7 +35,7 @@ export default async (req, res) => {
 
   let time;
 
-  const getLabel = (ended, state) => {
+  const getLabel = (ended, state = null) => {
     if (type === "feed") {
       if (!ended) {
         return "started feeding";
@@ -48,6 +55,10 @@ export default async (req, res) => {
       }
       return "";
     }
+
+    if (type === "medicine") {
+      return "medicated";
+    }
   };
 
   getPreviousEntryId()
@@ -59,7 +70,7 @@ export default async (req, res) => {
     })
     .then(async (previous) => {
       let { date } = previous.properties.Date;
-      let state = previous.properties.State.select.name;
+      let state = previous.properties?.State?.select.name;
 
       const ended = date.end ? true : false;
       date = ended ? moment(date.end) : moment(date.start);

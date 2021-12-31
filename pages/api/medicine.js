@@ -11,6 +11,8 @@ export default async (req, res) => {
 
   const { amount } = req.query;
 
+  console.log(amount);
+
   const currentTime = moment().tz("Europe/London").format();
 
   // Options - add medication
@@ -39,7 +41,7 @@ export default async (req, res) => {
         rich_text: [
           {
             text: {
-              content: amount,
+              content: `${amount}`,
             },
           },
         ],
