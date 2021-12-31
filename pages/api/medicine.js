@@ -36,8 +36,8 @@ export default async (req, res) => {
           },
         },
         Amount: {
-          text: {
-            content: amount,
+            rich_text: {
+                plain_text: amount,
           },
         }
       },
