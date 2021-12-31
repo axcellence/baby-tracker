@@ -77,8 +77,9 @@ export default async (req, res) => {
 
       const label = getLabel(ended, state);
 
-      res
-        .status(200)
-        .json({ label: `Ezekiel ${label}`, timeAgo: date.from(currentTime) });
+      res.status(200).json({
+        label: `Ezekiel ${label}`,
+        timeAgo: date.from(currentTime),
+      });
     });
 };
