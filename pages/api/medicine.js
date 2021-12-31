@@ -13,35 +13,39 @@ export default async (req, res) => {
 
   const currentTime = moment().tz("Europe/London").format();
 
-  // Options - add medication 
-  
-  // add new medication 
-    const response = await notion.pages.create({
-      parent: {
-        database_id: databaseId,
-      },
-      properties: {
-        Name: {
-          title: [
-            {
-              text: {
-                content: "Ezekiel had medicin",
-              },
+  // Options - add medication
+
+  // add new medication
+  const response = await notion.pages.create({
+    parent: {
+      database_id: databaseId,
+    },
+    properties: {
+      Name: {
+        title: [
+          {
+            text: {
+              content: "Ezekiel had medicine",
             },
-          ],
-        },
-        Date: {
-          date: {
-            start: currentTime,
           },
-        },
-        Amount: {
-            rich_text: {
-                plain_text: amount,
-          },
-        }
+        ],
       },
-    });
+      Date: {
+        date: {
+          start: currentTime,
+        },
+      },
+      Amount: {
+        rich_text: [
+          {
+            text: {
+              content: amount,
+            },
+          },
+        ],
+      },
+    },
+  });
 
   res.status(200);
 };
