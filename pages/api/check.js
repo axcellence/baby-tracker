@@ -43,7 +43,7 @@ export default async (req, res) => {
       if (ended) {
         return "fed";
       }
-      return "";
+      return "fed";
     }
 
     if (type === "sleep") {
@@ -53,7 +53,7 @@ export default async (req, res) => {
       if (state === "Awake" && !ended) {
         return "woke up";
       }
-      return "";
+      return "slept";
     }
 
     if (type === "medicine") {
